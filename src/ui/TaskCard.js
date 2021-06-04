@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react";
 
-export const TaskCard = () => {
-  return (
-    <div className="card">
-      TaskCard
-    </div>
-  )
-}
+export const TaskCard = (props) => {
+  return <div className="card">{props.card.title}</div>;
+};
