@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Column } from "./Column";
+import { NewColumnButton } from "./NewColumnButton";
 
-export const KanbanBoard = () => {
+export const KanbanBoard = (props) => {
   const [columnOrder, setColumnOrder] = useState(["1", "2", "3"]);
   const [board, setBoard] = useState([
     {
@@ -47,22 +48,41 @@ export const KanbanBoard = () => {
     },
   ]);
 
+  const updateBoard = (newBoard) => {
+    setBoard(newBoard)
+  }
+
+  const addNewId = (Id) => {
+    setColumnOrder([...columnOrder, Id]);
+  };
+
+  const removeId = (Id) => {
+    setColumnOrder(columnOrder.filter((columnId) => columnId != Id ))
+  }
+
   const mappedColumns = columnOrder.map((columnId, index) => {
-    const column = board.find((column) => column.columnId === columnId)
+    const column = board.find((column) => column.columnId === columnId);
 
     return (
-        <Column
-          column={column} 
-          columnId={column.columnId} 
-          index={index} 
-          key={index}
-        />
+      <Column
+        column={column}
+        columnId={column.columnId}
+        index={index}
+        key={index}
+      />
     );
   });
 
   return (
-    <div className="columns">
-      {mappedColumns}
+    <div>
+      <div className="columns">{mappedColumns}</div>
+      <NewColumnButton
+        addNewId={addNewId}
+        updateBoard={updateBoard}
+        globalCount={props.globalCount}
+        globalIncrement={props.globalIncrement}
+        board={board}
+      />
     </div>
   );
 };
