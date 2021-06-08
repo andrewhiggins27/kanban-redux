@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+
 import { Column } from "./Column";
 import { NewColumnButton } from "./NewColumnButton";
 
@@ -49,16 +51,104 @@ export const KanbanBoard = (props) => {
   ]);
 
   const updateBoard = (newBoard) => {
-    setBoard(newBoard)
-  }
+    setBoard(newBoard);
+  };
 
   const addNewId = (Id) => {
     setColumnOrder([...columnOrder, Id]);
   };
 
   const removeId = (Id) => {
-    setColumnOrder(columnOrder.filter((columnId) => columnId != Id ))
-  }
+    setColumnOrder(columnOrder.filter((columnId) => columnId != Id));
+  };
+
+  const onDragEnd = (result) => {
+    // Column/TaskCard dropped in nonvalid space
+    if (!result.destination) {
+      return;
+    }
+
+    // Column/TaskCard dropped in original space
+    if (
+      result.destination.droppableId === result.source.droppableId &&
+      result.destination.index === result.source.index
+    ) {
+      return;
+    }
+
+    // Column dropped in new valid space
+    if (result.type === "column") {
+      const newColumnOrder = Array.from(columnOrder);
+      newColumnOrder.splice(result.source.index, 1);
+      newColumnOrder.splice(result.destination.index, 0, result.draggableId);
+      setColumnOrder(newColumnOrder);
+      return;
+    }
+
+    const sourceColumn = board.find(
+      (column) => column.columnId === result.source.droppableId
+    );
+    const destinationColumn = board.find(
+      (column) => column.columnId === result.destination.droppableId
+    );
+    const draggedCard = sourceColumn.cards.find(
+      (card) => card.id === result.draggableId
+    );
+
+    // TaskCard moved within same column
+    if (sourceColumn === destinationColumn) {
+      const cards = Array.from(sourceColumn.cards);
+      cards.splice(result.source.index, 1);
+      cards.splice(result.destination.index, 0, draggedCard);
+
+      const updatedColumn = {
+        ...sourceColumn,
+        cards: cards,
+      };
+
+      const updatedState = () => {
+        const columns = Array.from(board);
+        const columnIndex = columns.findIndex(
+          (column) => column.columnId === updatedColumn.columnId
+        );
+        columns[columnIndex] = updatedColumn;
+        return columns;
+      };
+
+      setBoard(updatedState());
+      return;
+    }
+
+    //TaskCard moved from one column to another
+    const sourceCards = Array.from(sourceColumn.cards);
+    sourceCards.splice(result.source.index, 1);
+    const newSourceColumn = {
+      ...sourceColumn,
+      cards: sourceCards,
+    };
+
+    const destinationCards = Array.from(destinationColumn.cards);
+    destinationCards.splice(result.destination.index, 0, draggedCard);
+    const newDestinationColumn = {
+      ...destinationColumn,
+      cards: destinationCards,
+    };
+
+    const updatedState = () => {
+      const columns = Array.from(board);
+      const newDestinationIndex = columns.findIndex(
+        (column) => column.columnId === newDestinationColumn.columnId
+      );
+      const newSourceIndex = columns.findIndex(
+        (column) => column.columnId === newSourceColumn.columnId
+      );
+      columns[newDestinationIndex] = newDestinationColumn;
+      columns[newSourceIndex] = newSourceColumn;
+      return columns;
+    };
+
+    setBoard(updatedState());
+  };
 
   const mappedColumns = columnOrder.map((columnId, index) => {
     const column = board.find((column) => column.columnId === columnId);
@@ -68,14 +158,31 @@ export const KanbanBoard = (props) => {
         column={column}
         columnId={column.columnId}
         index={index}
-        key={index}
+        key={column.columnId}
       />
     );
   });
 
   return (
     <div>
-      <div className="columns">{mappedColumns}</div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable
+          droppableId="columns-board"
+          direction="horizontal"
+          type="column"
+        >
+          {(provided) => (
+            <div
+              className="columns"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {mappedColumns}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       <NewColumnButton
         addNewId={addNewId}
         updateBoard={updateBoard}
