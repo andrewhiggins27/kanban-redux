@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import { Column } from "./Column";
 import { NewColumnButton } from "./NewColumnButton";
 
 export const KanbanBoard = (props) => {
-  const [columnOrder, setColumnOrder] = useState(["1", "2", "3"]);
+  const [columnOrder, setColumnOrder] = useState(["1", "2", "3", "4"]);
   const [board, setBoard] = useState([
     {
       columnId: "1",
@@ -13,7 +13,7 @@ export const KanbanBoard = (props) => {
       cards: [
         {
           id: "44",
-          title: "Make a trello board",
+          title: "Do a board",
           description: "We need to make a Camden, NJ board",
           due_date: Date.now(),
         },
@@ -45,7 +45,12 @@ export const KanbanBoard = (props) => {
     },
     {
       columnId: "3",
-      title: "Done",
+      title: "Click text to change title",
+      cards: [],
+    },
+    {
+      columnId: "4",
+      title: "Completed",
       cards: [],
     },
   ]);
@@ -159,6 +164,8 @@ export const KanbanBoard = (props) => {
         columnId={column.columnId}
         index={index}
         key={column.columnId}
+        updateBoard={updateBoard}
+        board={board}
       />
     );
   });

@@ -8,7 +8,7 @@ export const NewColumnButton = (props) => {
     props.updateBoard([
       ...props.board, {
         columnId: idString,
-        title: "Click to change title",
+        title: "Click text to change title",
         cards: []
       }
     ])
