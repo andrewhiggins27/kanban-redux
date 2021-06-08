@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import EditableLabel from "react-inline-editing";
 import { Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
