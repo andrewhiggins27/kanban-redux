@@ -153,13 +153,11 @@ export const KanbanBoard = (props) => {
 
   const mappedColumns = columnOrder.map((columnId, index) => {
     const column = board.find((column) => column.columnId === columnId);
-
     return (
       <Column
         column={column}
-        columnId={column.columnId}
         index={index}
-        key={column.columnId}
+        key={index}
         updateBoard={updateBoard}
         board={board}
       />
