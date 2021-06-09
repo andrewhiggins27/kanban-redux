@@ -19,6 +19,8 @@ export const Column = (props) => {
         card={card}
         index={index}
         columnId={props.column.columnId}
+        updateBoard={props.updateBoard}
+        board={props.board}
       />
     );
   });
