@@ -4,10 +4,12 @@ import { Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { EditTaskCardModal } from "./EditTaskCardModal";
+import { DeleteTaskCardModal } from "./DeleteTaskCardModal";
 
 export const TaskCard = (props) => {
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
 
   const toggleExpand = () => {
     setOpen(!open);
@@ -15,6 +17,10 @@ export const TaskCard = (props) => {
 
   const toggleOpenEdit = () => {
     setOpenEdit(!openEdit)
+  }
+
+  const toggleOpenDelete = () => {
+    setOpenDelete(!openDelete)
   }
 
   const MAX_LENGTH = 120;
@@ -78,7 +84,7 @@ export const TaskCard = (props) => {
               <a className="card-footer-item" onClick={toggleOpenEdit}>
                 Edit
               </a>
-              <a className="card-footer-item">
+              <a className="card-footer-item" onClick={toggleOpenDelete}>
                 Delete
               </a>
               <a className="card-footer-item">
@@ -97,6 +103,14 @@ export const TaskCard = (props) => {
         toggleOpenEdit={toggleOpenEdit}
         card={props.card}
         columnId={props.columnId}
+        board={props.board}
+        updateBoard={props.updateBoard}
+      />
+      <DeleteTaskCardModal
+        isActive={openDelete}
+        toggleOpenDelete={toggleOpenDelete}
+        columnId={props.columnId}
+        card={props.card}
         board={props.board}
         updateBoard={props.updateBoard}
       />
