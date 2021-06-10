@@ -29,3 +29,7 @@ font-weight: bolder;
 .taskcard-default{
   background-color: white;
 }
+
+.deactive-button{
+  opacity: .3;
+}
