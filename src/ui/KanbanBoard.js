@@ -161,6 +161,7 @@ export const KanbanBoard = (props) => {
         key={columnId}
         updateBoard={updateBoard}
         board={board}
+        removeId={removeId}
       />
     );
   });

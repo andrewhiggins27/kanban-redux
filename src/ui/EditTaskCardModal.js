@@ -18,17 +18,24 @@ export const EditTaskCardModal = (props) => {
     });
   };
 
-  const handleSubmit = () => {
-    let newBoard = Array.from(props.board)
-    let columnIndex = newBoard.findIndex((col) => col.columnId === props.columnId)
-    let newColumn = newBoard[columnIndex]
-    let cardIndex = newColumn.cards.findIndex((card) => card.id === props.card.id)
+  const handleSubmit = (event) => {
+    event.preventDefault()
 
-    newColumn.cards[cardIndex] = {...form, id: props.card.id}
-    newBoard[columnIndex] = newColumn
-
-    props.updateBoard(newBoard)
-    props.toggleOpenEdit()
+    if (form.title !== "" && form.description !== "") {
+      let newBoard = Array.from(props.board)
+      let columnIndex = newBoard.findIndex((col) => col.columnId === props.columnId)
+      let newColumn = newBoard[columnIndex]
+      let cardIndex = newColumn.cards.findIndex((card) => card.id === props.card.id)
+  
+      newColumn.cards[cardIndex] = {...form, id: props.card.id}
+      newBoard[columnIndex] = newColumn
+  
+      props.updateBoard(newBoard)
+      props.toggleOpenEdit()
+      setErrors("")
+    } else {
+      setErrors("Title and Description are Required")
+    }
   }
 
   let modalClass = "modal";
