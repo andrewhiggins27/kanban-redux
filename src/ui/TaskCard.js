@@ -2,58 +2,80 @@ import React, { useState } from "react";
 
 import { Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faAngleUp,
+  faEdit,
+  faTrash,
+  faLongArrowAltLeft,
+  faLongArrowAltRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { EditTaskCardModal } from "./EditTaskCardModal";
 import { DeleteTaskCardModal } from "./DeleteTaskCardModal";
 
 export const TaskCard = (props) => {
   const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false)
-  const [openDelete, setOpenDelete] = useState(false)
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   const toggleExpand = () => {
     setOpen(!open);
   };
 
   const toggleOpenEdit = () => {
-    setOpenEdit(!openEdit)
-  }
+    setOpenEdit(!openEdit);
+  };
 
   const toggleOpenDelete = () => {
-    setOpenDelete(!openDelete)
-  }
+    setOpenDelete(!openDelete);
+  };
 
   const moveLeft = () => {
     if (props.columnOrder[0] === props.columnId) {
-      return
+      return;
     } else {
-      let newBoard = Array.from(props.board)
-      let columnIndex = newBoard.findIndex(col => col.columnId === props.columnId)
-      let cardIndex = newBoard[columnIndex].cards.indexOf(props.card)
-      let columnOrderIndex = props.columnOrder.findIndex(colId => colId === props.columnId)
-      let newColumnId = props.columnOrder[columnOrderIndex - 1]
-      let newColumnIndex = newBoard.findIndex(col => col.columnId === newColumnId)
-      newBoard[columnIndex].cards.splice(cardIndex, 1)
-      newBoard[newColumnIndex].cards.push(props.card)
-      props.updateBoard(newBoard)
+      let newBoard = Array.from(props.board);
+      let columnIndex = newBoard.findIndex(
+        (col) => col.columnId === props.columnId
+      );
+      let cardIndex = newBoard[columnIndex].cards.indexOf(props.card);
+      let columnOrderIndex = props.columnOrder.findIndex(
+        (colId) => colId === props.columnId
+      );
+      let newColumnId = props.columnOrder[columnOrderIndex - 1];
+      let newColumnIndex = newBoard.findIndex(
+        (col) => col.columnId === newColumnId
+      );
+      newBoard[columnIndex].cards.splice(cardIndex, 1);
+      newBoard[newColumnIndex].cards.push(props.card);
+      props.updateBoard(newBoard);
     }
-  }
+  };
 
   const moveRight = () => {
     if (props.columnOrder[props.columnOrder.length - 1] === props.columnId) {
-      return
+      return;
     } else {
-      let newBoard = Array.from(props.board)
-      let columnIndex = newBoard.findIndex(col => col.columnId === props.columnId)
-      let cardIndex = newBoard[columnIndex].cards.indexOf(props.card)
-      let columnOrderIndex = props.columnOrder.findIndex(colId => colId === props.columnId)
-      let newColumnId = props.columnOrder[columnOrderIndex + 1]
-      let newColumnIndex = newBoard.findIndex(col => col.columnId === newColumnId)
-      newBoard[columnIndex].cards.splice(cardIndex, 1)
-      newBoard[newColumnIndex].cards.push(props.card)
-      props.updateBoard(newBoard)
+      let newBoard = Array.from(props.board);
+      let columnIndex = newBoard.findIndex(
+        (col) => col.columnId === props.columnId
+      );
+      let cardIndex = newBoard[columnIndex].cards.indexOf(props.card);
+      let columnOrderIndex = props.columnOrder.findIndex(
+        (colId) => colId === props.columnId
+      );
+      let newColumnId = props.columnOrder[columnOrderIndex + 1];
+      let newColumnIndex = newBoard.findIndex(
+        (col) => col.columnId === newColumnId
+      );
+      newBoard[columnIndex].cards.splice(cardIndex, 1);
+      newBoard[newColumnIndex].cards.push(props.card);
+      props.updateBoard(newBoard);
     }
-  }
+  };
+
+  let arrowLeftClasses = (props.columnOrder[0] === props.columnId) ? "button card-footer-item is-small deactive-button" : "button card-footer-item is-small"
+  let arrowRightClasses = (props.columnOrder[props.columnOrder.length - 1] === props.columnId) ? "button card-footer-item is-small deactive-button" : "button card-footer-item is-small"
 
   const MAX_LENGTH = 120;
 
@@ -92,45 +114,65 @@ export const TaskCard = (props) => {
 
   return (
     <>
-    <Draggable draggableId={props.card.id} index={props.index}>
-      {(provided, snapshot) => (
-        <div
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-        >
+      <Draggable draggableId={props.card.id} index={props.index}>
+        {(provided, snapshot) => (
           <div
-            className={
-              snapshot.isDragging
-                ? "taskcard-color card mb-1"
-                : "taskcard-default card mb-1"
-            }
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
           >
-            <div className="card-header">
-              <p className="card-header-title taskcard-title">
-                {props.card.title}
-              </p>
+            <div
+              className={
+                snapshot.isDragging
+                  ? "taskcard-color card mb-1"
+                  : "taskcard-default card mb-1"
+              }
+            >
+              <div className="card-header">
+                <p className="card-header-title taskcard-title">
+                  {props.card.title}
+                </p>
+              </div>
+              <div className="card-content">{description}</div>
+              <footer className="card-footer">
+                <button
+                  className="button card-footer-item is-small"
+                  onClick={toggleOpenEdit}
+                >
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faEdit} />
+                  </span>
+                </button>
+                <button
+                  className="button card-footer-item is-small"
+                  onClick={toggleOpenDelete}
+                >
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faTrash} />
+                  </span>
+                </button>
+                <button
+                  className={arrowLeftClasses}
+                  onClick={moveLeft}
+                >
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faLongArrowAltLeft} />
+                  </span>
+                </button>
+                <button
+                  className={arrowRightClasses}
+                  onClick={moveRight}
+                >
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faLongArrowAltRight} />
+                  </span>
+                </button>
+              </footer>
             </div>
-            <div className="card-content">{description}</div>
-            <footer className="card-footer">
-              <a className="card-footer-item" onClick={toggleOpenEdit}>
-                Edit
-              </a>
-              <a className="card-footer-item" onClick={toggleOpenDelete}>
-                Delete
-              </a>
-              <a className="card-footer-item" onClick={moveLeft}>
-                Move Left
-              </a>  
-              <a className="card-footer-item" onClick={moveRight}>
-                Move Right
-              </a>
-            </footer>
           </div>
-        </div>
-      )}
-    </Draggable>
-    <EditTaskCardModal
+        )}
+      </Draggable>
+      <EditTaskCardModal
         isActive={openEdit}
         toggleOpenEdit={toggleOpenEdit}
         card={props.card}
