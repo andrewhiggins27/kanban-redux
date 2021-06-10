@@ -1,16 +1,19 @@
 import React, {useState} from "react";
 import EditableLabel from "react-inline-editing";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { faPlusSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { TaskCard } from "./TaskCard";
 import { AddNewTaskCardModal } from "./AddNewTaskCardModal"
+import { DeleteColumnModal } from "./DeleteColumnModal";
 
 export const Column = (props) => {
-  const [openModal, setOpenModal] = useState(false)
+  const [openCardModal, setCardModal] = useState(false)
+  const [openDeleteModal, setDeleteModal] = useState(false)
 
-  const toggleModal = () => {setOpenModal(!openModal)}
+  const toggleCardModal = () => {setCardModal(!openCardModal)}
+  const toggleDeleteModal = () => {setDeleteModal(!openDeleteModal)}
 
   const mappedCards = props.column.cards.map((card, index) => {
     return (
@@ -61,9 +64,14 @@ export const Column = (props) => {
                   {props.column.title}
                 </EditableLabel>
               </div>
-              <button className="button is-small card-header-icon" onClick={toggleModal}>
+              <button className="button is-small card-header-icon" onClick={toggleCardModal}>
                 <span className="icon">
                   <FontAwesomeIcon icon={faPlusSquare} />
+                </span>
+              </button>
+              <button className="button is-small card-header-icon" onClick={toggleDeleteModal}>
+                <span className="icon">
+                  <FontAwesomeIcon icon={faTrash} />
                 </span>
               </button>
             </header>
@@ -86,11 +94,19 @@ export const Column = (props) => {
       )}
     </Draggable>
     <AddNewTaskCardModal
-      isActive={openModal}
-      toggleModal={toggleModal}
+      isActive={openCardModal}
+      toggleModal={toggleCardModal}
       column={props.column}
       updateBoard={props.updateBoard}
       board={props.board}
+    />
+    <DeleteColumnModal
+      board={props.board}
+      updateBoard={props.updateBoard}
+      column={props.column}
+      isActive={openDeleteModal}
+      toggleModal={toggleDeleteModal}
+      removeId={props.removeId}
     />
     </>
   );
