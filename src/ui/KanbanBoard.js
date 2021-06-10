@@ -156,8 +156,9 @@ export const KanbanBoard = (props) => {
     return (
       <Column
         column={column}
+        columnOrder={columnOrder}
         index={index}
-        key={index}
+        key={columnId}
         updateBoard={updateBoard}
         board={board}
       />

@@ -23,6 +23,38 @@ export const TaskCard = (props) => {
     setOpenDelete(!openDelete)
   }
 
+  const moveLeft = () => {
+    if (props.columnOrder[0] === props.columnId) {
+      return
+    } else {
+      let newBoard = Array.from(props.board)
+      let columnIndex = newBoard.findIndex(col => col.columnId === props.columnId)
+      let cardIndex = newBoard[columnIndex].cards.indexOf(props.card)
+      let columnOrderIndex = props.columnOrder.findIndex(colId => colId === props.columnId)
+      let newColumnId = props.columnOrder[columnOrderIndex - 1]
+      let newColumnIndex = newBoard.findIndex(col => col.columnId === newColumnId)
+      newBoard[columnIndex].cards.splice(cardIndex, 1)
+      newBoard[newColumnIndex].cards.push(props.card)
+      props.updateBoard(newBoard)
+    }
+  }
+
+  const moveRight = () => {
+    if (props.columnOrder[props.columnOrder.length - 1] === props.columnId) {
+      return
+    } else {
+      let newBoard = Array.from(props.board)
+      let columnIndex = newBoard.findIndex(col => col.columnId === props.columnId)
+      let cardIndex = newBoard[columnIndex].cards.indexOf(props.card)
+      let columnOrderIndex = props.columnOrder.findIndex(colId => colId === props.columnId)
+      let newColumnId = props.columnOrder[columnOrderIndex + 1]
+      let newColumnIndex = newBoard.findIndex(col => col.columnId === newColumnId)
+      newBoard[columnIndex].cards.splice(cardIndex, 1)
+      newBoard[newColumnIndex].cards.push(props.card)
+      props.updateBoard(newBoard)
+    }
+  }
+
   const MAX_LENGTH = 120;
 
   let description =
@@ -87,10 +119,10 @@ export const TaskCard = (props) => {
               <a className="card-footer-item" onClick={toggleOpenDelete}>
                 Delete
               </a>
-              <a className="card-footer-item">
+              <a className="card-footer-item" onClick={moveLeft}>
                 Move Left
               </a>  
-              <a className="card-footer-item">
+              <a className="card-footer-item" onClick={moveRight}>
                 Move Right
               </a>
             </footer>
