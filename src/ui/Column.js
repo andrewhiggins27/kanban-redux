@@ -19,6 +19,7 @@ export const Column = (props) => {
         card={card}
         index={index}
         columnId={props.column.columnId}
+        columnOrder={props.columnOrder}
         updateBoard={props.updateBoard}
         board={props.board}
       />
