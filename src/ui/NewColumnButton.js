@@ -1,5 +1,4 @@
 import React from "react";
-
 import COLUMN_COLORS from "../constants/columnColors"
 
 export const NewColumnButton = (props) => {
@@ -21,8 +20,8 @@ export const NewColumnButton = (props) => {
   };
 
   return (
-    <div className="button is-rounded" onClick={addNewColumn}>
-      <span data-tooltip="Tooltip Text">
+    <div className="button is-rounded" data-tooltip="something" onClick={addNewColumn}>
+      <span>
         Add Column
       </span>
     </div>

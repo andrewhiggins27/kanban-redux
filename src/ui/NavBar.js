@@ -1,13 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 import { NewColumnButton } from "./NewColumnButton";
 
 import logo from '../images/boardlogo.png'
+import { AboutModal } from "./AboutModal";
+import ReactTooltip from "react-tooltip";
 
 export const NavBar = (props) => {
+  const [aboutModal, setAboutModal] = useState(false)
+
+  const toggleAboutModal = (e) => {
+    e.preventDefault()
+    setAboutModal(!aboutModal)
+  }
+
   return (
     <nav className="navbar is-transparent" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
-        <a className="navbar-item" href="">
+        <a className="navbar-item" href="" onClick={toggleAboutModal} data-tip="About this app">
           <img
             src={logo}
             width="100"
@@ -29,6 +38,11 @@ export const NavBar = (props) => {
           </div>
         </div>
       </div>
+      <AboutModal
+        isActive={aboutModal}
+        toggleModal={toggleAboutModal}
+      />
+      <ReactTooltip/>
     </nav>
   );
 };

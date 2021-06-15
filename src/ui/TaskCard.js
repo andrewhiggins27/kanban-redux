@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { EditTaskCardModal } from "./EditTaskCardModal";
 import { DeleteTaskCardModal } from "./DeleteTaskCardModal";
+import ReactTooltip from "react-tooltip";
 
 export const TaskCard = (props) => {
   const [open, setOpen] = useState(false);
@@ -144,6 +145,8 @@ export const TaskCard = (props) => {
                 <button
                   className="button card-footer-item is-small"
                   onClick={toggleOpenEdit}
+                  data-tip="Edit Card"
+                  data-delay-show="200"
                 >
                   <span className="icon">
                     <FontAwesomeIcon icon={faEdit} />
@@ -152,17 +155,29 @@ export const TaskCard = (props) => {
                 <button
                   className="button card-footer-item is-small"
                   onClick={toggleOpenDelete}
+                  data-tip="Delete Card"
+                  data-delay-show="200"
                 >
                   <span className="icon">
                     <FontAwesomeIcon icon={faTrash} />
                   </span>
                 </button>
-                <button className={arrowLeftClasses} onClick={moveLeft}>
+                <button
+                  className={arrowLeftClasses}
+                  onClick={moveLeft}
+                  data-tip="Move to Previous Column"
+                  data-delay-show="200"
+                >
                   <span className="icon">
                     <FontAwesomeIcon icon={faLongArrowAltLeft} />
                   </span>
                 </button>
-                <button className={arrowRightClasses} onClick={moveRight}>
+                <button
+                  className={arrowRightClasses}
+                  onClick={moveRight}
+                  data-tip="Move to Next Column"
+                  data-delay-show="200"
+                >
                   <span className="icon">
                     <FontAwesomeIcon icon={faLongArrowAltRight} />
                   </span>
@@ -188,6 +203,7 @@ export const TaskCard = (props) => {
         board={props.board}
         updateBoard={props.updateBoard}
       />
+      <ReactTooltip />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "./App.css";
+import "./sass/App.css";
 import { KanbanBoard } from "./ui/KanbanBoard";
 
 export const App = () => {

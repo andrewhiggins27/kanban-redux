@@ -11,11 +11,14 @@
     "@testing-library/user-event": "^12.1.10",
     "bulma": "^0.9.2",
     "bulma-extensions": "^6.2.7",
+    "node-sass": "^6.0.0",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-inline-editing": "^1.0.10",
+    "react-router": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-tooltip": "^4.2.21",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
