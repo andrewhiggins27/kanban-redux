@@ -11,7 +11,7 @@ export const App = () => {
   };
 
   return (
-    <div className="App container">
+    <div className="App">
       <KanbanBoard
         globalCount={globalCount}
         globalIncrement={globalIncrement}

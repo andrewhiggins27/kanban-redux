@@ -74,8 +74,14 @@ export const TaskCard = (props) => {
     }
   };
 
-  let arrowLeftClasses = (props.columnOrder[0] === props.columnId) ? "button card-footer-item is-small deactive-button" : "button card-footer-item is-small"
-  let arrowRightClasses = (props.columnOrder[props.columnOrder.length - 1] === props.columnId) ? "button card-footer-item is-small deactive-button" : "button card-footer-item is-small"
+  let arrowLeftClasses =
+    props.columnOrder[0] === props.columnId
+      ? "button card-footer-item is-small deactive-button"
+      : "button card-footer-item is-small";
+  let arrowRightClasses =
+    props.columnOrder[props.columnOrder.length - 1] === props.columnId
+      ? "button card-footer-item is-small deactive-button"
+      : "button card-footer-item is-small";
 
   const MAX_LENGTH = 120;
 
@@ -124,8 +130,8 @@ export const TaskCard = (props) => {
             <div
               className={
                 snapshot.isDragging
-                  ? "taskcard-color card mb-1"
-                  : "taskcard-default card mb-1"
+                  ? "taskcard-color taskcard card mb-1"
+                  : "taskcard-default taskcard card mb-1"
               }
             >
               <div className="card-header">
@@ -151,18 +157,12 @@ export const TaskCard = (props) => {
                     <FontAwesomeIcon icon={faTrash} />
                   </span>
                 </button>
-                <button
-                  className={arrowLeftClasses}
-                  onClick={moveLeft}
-                >
+                <button className={arrowLeftClasses} onClick={moveLeft}>
                   <span className="icon">
                     <FontAwesomeIcon icon={faLongArrowAltLeft} />
                   </span>
                 </button>
-                <button
-                  className={arrowRightClasses}
-                  onClick={moveRight}
-                >
+                <button className={arrowRightClasses} onClick={moveRight}>
                   <span className="icon">
                     <FontAwesomeIcon icon={faLongArrowAltRight} />
                   </span>

@@ -1,11 +1,23 @@
 body {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  /* overflow-x: auto; */
+}
+
+html {
+  background-color: #ede7be;
+}
+
+.container {
   overflow-x: auto;
 }
 
 .column-title {
   font-size: larger;
-font-weight: bolder;
+  font-weight: bolder;
+}
+
+.column-button {
+  background-color: #bdeecd;
 }
 
 .taskcard-title {
@@ -14,22 +26,37 @@ font-weight: bolder;
 }
 
 .columnColored {
-  background-color: greenyellow;
+  background-color: rgb(200, 235, 147);
 }
 
 .columnDefault {
   background-color: white;
 }
 
-.taskcard-color{
-  background-color: greenyellow;
+.taskcard-color {
+  background-color: rgb(200, 235, 147);
 }
 
-
-.taskcard-default{
+.taskcard-default {
   background-color: white;
 }
 
-.deactive-button{
-  opacity: .3;
+.deactive-button {
+  opacity: 0.3;
+}
+
+.navbar {
+  background-color: #a7bfa0;
+}
+
+.column-header-icon {
+  margin: .1rem;
+}
+
+.column-card {
+  min-height: 24rem;
+}
+
+.taskcard {
+  margin: .2rem
 }

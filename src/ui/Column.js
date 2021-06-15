@@ -41,6 +41,11 @@ export const Column = (props) => {
     props.updateBoard(updatedBoard);
   };
 
+  let lastColumn
+  if (props.column.columnId === props.columnOrder[props.columnOrder.length - 1]) {
+    lastColumn = "lastColumn"
+  }
+
   return (
     <>
     <Draggable draggableId={props.column.columnId} index={props.index}>
@@ -49,8 +54,11 @@ export const Column = (props) => {
           {...provided.draggableProps}
           ref={provided.innerRef}
           className="column is-one-quarter"
+          id={lastColumn}
         >
-          <div className="card">
+          <div className="card column-card" style={{
+            backgroundColor: props.column.color
+          }}>
             <header className="card-header">
               <div
                 className="card-header-title column-title mb-2"
@@ -64,12 +72,12 @@ export const Column = (props) => {
                   {props.column.title}
                 </EditableLabel>
               </div>
-              <button className="button is-small card-header-icon" onClick={toggleCardModal}>
+              <button className="button is-small card-header-icon column-header-icon" onClick={toggleCardModal}>
                 <span className="icon">
                   <FontAwesomeIcon icon={faPlusSquare} />
                 </span>
               </button>
-              <button className="button is-small card-header-icon" onClick={toggleDeleteModal}>
+              <button className="button is-small card-header-icon column-header-icon" onClick={toggleDeleteModal}>
                 <span className="icon">
                   <FontAwesomeIcon icon={faTrash} />
                 </span>
@@ -81,7 +89,7 @@ export const Column = (props) => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   className={
-                    snapshot.isDraggingOver ? "columnColored" : "columnDefault"
+                    snapshot.isDraggingOver ? "columnColored column-card" : "column-card"
                   }
                 >
                   {mappedCards}
