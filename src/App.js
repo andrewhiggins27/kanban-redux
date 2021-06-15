@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "./App.css";
+import "./sass/App.css";
 import { KanbanBoard } from "./ui/KanbanBoard";
 
 export const App = () => {
@@ -11,7 +11,7 @@ export const App = () => {
   };
 
   return (
-    <div className="App container">
+    <div className="App">
       <KanbanBoard
         globalCount={globalCount}
         globalIncrement={globalIncrement}

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import { Column } from "./Column";
-import { NewColumnButton } from "./NewColumnButton";
+import { NavBar } from "./NavBar";
 
 export const KanbanBoard = (props) => {
   const [columnOrder, setColumnOrder] = useState(["1", "2", "3", "4"]);
@@ -13,43 +13,77 @@ export const KanbanBoard = (props) => {
       cards: [
         {
           id: "44",
-          title: "Do a board",
-          description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,",
+          title: "Spin in circles for 5 minutes",
+          description:
+            "Rotate for an extended period of time to prove dizziness is only a state of mind",
         },
         {
           id: "33",
-          title: "Make a trello board2222",
-          description: "We need to make a Camden, NJ board2222",
+          title: "Make a grilled cheese",
+          description:
+            "Substitute mayo for butter for an easy spread and an even toast",
         },
       ],
+      color: "#D88A8A",
     },
     {
       columnId: "2",
       title: "In Progress",
       cards: [
         {
-          id: "22",
-          title: "Make a trello board inprogress",
-          description: "We need to make a Camden, NJ board inprogress",
+          id: "234",
+          title: "Create a front-end only kanban board",
+          description: "Persisting in the backend is for chumps",
         },
         {
-          id: "11",
-          title: "Make a trello board inprogress33333",
-          description: "We need to make a Camden, NJ board inprogress3333",
+          id: "1671",
+          title: "Get Trello.com deleted from the internet",
+          description: "There can be only one.",
         },
       ],
+      color: "#F8EDD1",
     },
     {
       columnId: "3",
-      title: "Click text to change title",
-      cards: [],
+      title: "Click text to change",
+      cards: [
+        {
+          id: "232422",
+          title: "This text is editable using the buttons below this card",
+          description:
+            "You can also delete the card and pretend the task never existed",
+        },
+        {
+          id: "77483",
+          title: "Cards and columns can be rearranged by drag and dropping",
+          description:
+            "You may also use the arrow buttons below to move the Task Card to the next column",
+        },
+      ],
+      color: "#EB7B59",
     },
     {
       columnId: "4",
       title: "Completed",
-      cards: [],
+      cards: [
+        {
+          id: "882",
+          title: "Dance like nobody's watching",
+          description:
+            "Even though they all are, and they're recording it to laugh at you later",
+        },
+      ],
+      color: "#A7C5BD",
     },
   ]);
+
+  useEffect(() => {
+    if (columnOrder.length !== 4) {
+      document
+        .getElementById("lastColumn")
+        .scrollIntoView({ behavior: "smooth" });
+    }
+  }, [board]);
 
   const updateBoard = (newBoard) => {
     setBoard(newBoard);
@@ -153,6 +187,7 @@ export const KanbanBoard = (props) => {
 
   const mappedColumns = columnOrder.map((columnId, index) => {
     const column = board.find((column) => column.columnId === columnId);
+
     return (
       <Column
         column={column}
@@ -167,32 +202,34 @@ export const KanbanBoard = (props) => {
   });
 
   return (
-    <div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable
-          droppableId="columns-board"
-          direction="horizontal"
-          type="column"
-        >
-          {(provided) => (
-            <div
-              className="columns"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {mappedColumns}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-      <NewColumnButton
+    <>
+      <NavBar
         addNewId={addNewId}
         updateBoard={updateBoard}
         globalCount={props.globalCount}
         globalIncrement={props.globalIncrement}
         board={board}
       />
-    </div>
+      <div className="container">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            droppableId="columns-board"
+            direction="horizontal"
+            type="column"
+          >
+            {(provided) => (
+              <div
+                className="columns"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {mappedColumns}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
+    </>
   );
 };
